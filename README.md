@@ -1,4 +1,4 @@
-# Foxmindet_Task9
+# FoxmindEd_Task9
 
 The project was created by Oleksandr Havlytskyi for educational purposes at the FoxmindEd course.
 ____
