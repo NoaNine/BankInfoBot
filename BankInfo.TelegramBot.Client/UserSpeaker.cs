@@ -9,7 +9,7 @@ namespace BankInfo.TelegramBot.Client
         private readonly ITelegramBotClient _client;
         public UserSpeaker(ITelegramBotClient telegramBotClient) 
         {
-            _client = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
+            _client = telegramBotClient ?? throw new exception //throw new ArgumentNullException(nameof(telegramBotClient));
         }
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
