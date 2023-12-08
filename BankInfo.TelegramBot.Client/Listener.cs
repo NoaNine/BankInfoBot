@@ -4,18 +4,18 @@ using Telegram.Bot.Types;
 
 namespace BankInfo.TelegramBot.Client
 {
-    public class UserSpeaker  
+    public class Listener
     {
         private readonly ITelegramBotClient _client;
-        public UserSpeaker(ITelegramBotClient telegramBotClient) 
+        public Listener(ITelegramBotClient telegramBotClient) 
         {
-            _client = telegramBotClient ?? throw new exception //throw new ArgumentNullException(nameof(telegramBotClient));
+            _client = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
         }
 
-        public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update.Message is not { } message)
-                return;
+                return; 
             if (message.Text is not { } messageText)
                 return;
 
@@ -26,7 +26,7 @@ namespace BankInfo.TelegramBot.Client
             Message sentMessage = await botClient.SendTextMessageAsync(chatId, "You said:\n" + messageText, cancellationToken: cancellationToken);
         }
 
-        public Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        public static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             var ErrorMessage = exception switch
             {
