@@ -1,26 +1,36 @@
 ﻿using BankInfo.TelegramBot.Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 
-namespace BankInfo.AppCore
+namespace BankInfo.AppCore;
+
+internal class Program
 {
-    internal class Program
+    static async Task Main(string[] args)
     {
-        static async Task Main(string[] args)
-        {
-            var botClient = new TelegramBotClient("6071781001:AAH_PDzLwbwj46-i-aNlDMT7uF4mMw3onTs");
-            using CancellationTokenSource cts = new();
-            ReceiverOptions receiverOptions = new()
+        IHost host = Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration(app =>
             {
-                AllowedUpdates = Array.Empty<UpdateType>()
-            };
-            botClient.StartReceiving(Listener.HandleUpdateAsync, Listener.HandlePollingErrorAsync, receiverOptions, cts.Token);
-            var me = await botClient.GetMeAsync();
-            Console.WriteLine($"Start listening for @{me.Username}");
-            Console.ReadLine();
-            var listener = new Listener(botClient);
-            cts.Cancel();
-        }
+                app.SetBasePath(Directory.GetCurrentDirectory());
+                app.AddJsonFile("appsettings.json");
+            })
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton(new TelegramBotClient(context.Configuration.GetConnectionString("BotApi")));
+                services.AddSingleton(new ReceiverOptions() { AllowedUpdates = Array.Empty<UpdateType>() });
+                services.AddSingleton(new CancellationTokenSource());
+                services.AddScoped(p => new Listener(
+                    (TelegramBotClient)p.GetService(typeof(TelegramBotClient)),
+                    (ReceiverOptions)p.GetService(typeof(ReceiverOptions)),
+                    (CancellationTokenSource)p.GetService(typeof(CancellationTokenSource))
+                    ));
+            })
+            .Build();
+        var listener = host.Services.GetRequiredService<Listener>();
+        Console.ReadLine();
     }
 }
