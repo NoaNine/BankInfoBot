@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using BankInfo.TelegramBot.Client.Services;
+using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -7,11 +8,11 @@ namespace BankInfo.TelegramBot.Client;
 
 public class Listener
 {
-    public readonly ITelegramBotClient _client;
+    private readonly ITelegramBotClient _client;
     public Listener(ITelegramBotClient telegramBotClient, ReceiverOptions receiverOptions, CancellationTokenSource cts) 
     {
         _client = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
-        _client.StartReceiving(HandleUpdateAsync, HandlePollingErrorAsync, receiverOptions, cts.Token);
+        StartReceiving(receiverOptions, cts);
     }
 
     public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -35,8 +36,12 @@ public class Listener
             ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}", 
             _ => exception.ToString()
         };
-
-        Console.WriteLine(ErrorMessage);
+        AdapterService.ConsolePrint(ErrorMessage);
         return Task.CompletedTask;
+    }
+
+    private void StartReceiving(ReceiverOptions receiverOptions, CancellationTokenSource cts)
+    {
+        _client.StartReceiving(HandleUpdateAsync, HandlePollingErrorAsync, receiverOptions, cts.Token);
     }
 }
