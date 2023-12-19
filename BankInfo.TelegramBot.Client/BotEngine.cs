@@ -6,13 +6,17 @@ using Telegram.Bot.Types;
 
 namespace BankInfo.TelegramBot.Client;
 
-public class Listener
+public class BotEngine
 {
     private readonly ITelegramBotClient _client;
-    public Listener(ITelegramBotClient telegramBotClient, ReceiverOptions receiverOptions, CancellationTokenSource cts) 
+    private readonly ReceiverOptions _receiverOptions;
+    private readonly CancellationTokenSource _cts;
+    public BotEngine(ITelegramBotClient telegramBotClient, ReceiverOptions receiverOptions, CancellationTokenSource cts) 
     {
         _client = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
-        StartReceiving(receiverOptions, cts);
+        _receiverOptions = receiverOptions ?? throw new ArgumentNullException(nameof(receiverOptions));
+        _cts = cts ?? throw new ArgumentNullException(nameof(cts));
+        StartReceiving();
     }
 
     public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -24,7 +28,7 @@ public class Listener
 
         var chatId = message.Chat.Id;
 
-        //Console.WriteLine($"Received a '{messageText}' message in chat {chatId}.");
+        AdapterService.ConsolePrint(messageText, chatId);
 
         Message sentMessage = await botClient.SendTextMessageAsync(chatId, "You said:\n" + messageText, cancellationToken: cancellationToken);
     }
@@ -40,8 +44,15 @@ public class Listener
         return Task.CompletedTask;
     }
 
-    private void StartReceiving(ReceiverOptions receiverOptions, CancellationTokenSource cts)
+    private void StartReceiving()
     {
-        _client.StartReceiving(HandleUpdateAsync, HandlePollingErrorAsync, receiverOptions, cts.Token);
+        try
+        {
+            _client.StartReceiving(HandleUpdateAsync, HandlePollingErrorAsync, _receiverOptions, _cts.Token);
+        }
+        catch (Exception ex)
+        {
+            AdapterService.ConsolePrint(ex.Message);
+        }
     }
 }

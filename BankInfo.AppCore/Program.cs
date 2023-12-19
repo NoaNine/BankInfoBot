@@ -23,14 +23,14 @@ internal class Program
                 services.AddSingleton(new TelegramBotClient(context.Configuration.GetConnectionString("BotApi")));
                 services.AddSingleton(new ReceiverOptions() { AllowedUpdates = Array.Empty<UpdateType>() });
                 services.AddSingleton(new CancellationTokenSource());
-                services.AddScoped(p => new Listener(
+                services.AddScoped(p => new BotEngine(
                     (TelegramBotClient)p.GetService(typeof(TelegramBotClient)),
                     (ReceiverOptions)p.GetService(typeof(ReceiverOptions)),
                     (CancellationTokenSource)p.GetService(typeof(CancellationTokenSource))
                     ));
             })
             .Build();
-        var listener = host.Services.GetRequiredService<Listener>();
+        var listener = host.Services.GetRequiredService<BotEngine>();
         Console.ReadLine();
     }
 }
