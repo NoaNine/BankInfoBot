@@ -28,7 +28,7 @@ public class BotEngine
 
         var chatId = message.Chat.Id;
 
-        AdapterService.ConsolePrint(messageText, chatId);
+        Adapter.ConsolePrint(messageText, chatId);
 
         Message sentMessage = await botClient.SendTextMessageAsync(chatId, "You said:\n" + messageText, cancellationToken: cancellationToken);
     }
@@ -40,7 +40,7 @@ public class BotEngine
             ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}", 
             _ => exception.ToString()
         };
-        AdapterService.ConsolePrint(ErrorMessage);
+        Adapter.ConsolePrint(ErrorMessage);
         return Task.CompletedTask;
     }
 
@@ -52,7 +52,7 @@ public class BotEngine
         }
         catch (Exception ex)
         {
-            AdapterService.ConsolePrint(ex.Message);
+            Adapter.ConsolePrint(ex.Message);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BankInfo.TelegramBot.Client.Services;
 
-public class ReplicaModelService
+public class ReplicaTemplates
 {
     public static string GetReplica_AllCommandList()
     {

@@ -1,4 +1,5 @@
 ﻿using BankInfo.TelegramBot.Client;
+using BankInfo.TelegramBot.Client.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +24,10 @@ internal class Program
                 services.AddSingleton(new TelegramBotClient(context.Configuration.GetConnectionString("BotApi")));
                 services.AddSingleton(new ReceiverOptions() { AllowedUpdates = Array.Empty<UpdateType>() });
                 services.AddSingleton(new CancellationTokenSource());
+                services.AddSingleton(new HttpClient());
+                services.AddScoped(p => new PrivateBankCurrentcyExchnageMonitor(
+                    (HttpClient)p.GetService(typeof(HttpClient)), 
+                    context.Configuration.GetConnectionString("BankApi")));
                 services.AddScoped(p => new BotEngine(
                     (TelegramBotClient)p.GetService(typeof(TelegramBotClient)),
                     (ReceiverOptions)p.GetService(typeof(ReceiverOptions)),
@@ -31,6 +36,7 @@ internal class Program
             })
             .Build();
         var listener = host.Services.GetRequiredService<BotEngine>();
+        var test = host.Services.GetRequiredService<PrivateBankCurrentcyExchnageMonitor>();
         Console.ReadLine();
     }
 }
