@@ -1,6 +1,4 @@
-﻿using BankInfo.TelegramBot.Client.Models;
-
-namespace BankInfo.TelegramBot.Client.Services;
+﻿namespace BankInfo.TelegramBot.Client.Services;
 
 public class PrivateBankCurrentcyExchnageMonitor
 {
