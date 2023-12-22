@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankInfo.AppCore", "BankInfo.AppCore\BankInfo.AppCore.csproj", "{C6D38277-BA0C-4996-9B03-CD417749DEAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankInfo.TelegramBot.Client", "BankInfo.TelegramBot.Client\BankInfo.TelegramBot.Client.csproj", "{15CF5A64-C0AB-413E-897D-BE2BFFB4532B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D38277-BA0C-4996-9B03-CD417749DEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D38277-BA0C-4996-9B03-CD417749DEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D38277-BA0C-4996-9B03-CD417749DEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D38277-BA0C-4996-9B03-CD417749DEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15CF5A64-C0AB-413E-897D-BE2BFFB4532B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15CF5A64-C0AB-413E-897D-BE2BFFB4532B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15CF5A64-C0AB-413E-897D-BE2BFFB4532B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15CF5A64-C0AB-413E-897D-BE2BFFB4532B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {65C2D414-CD38-4302-A142-076D7B844845}
+	EndGlobalSection
+EndGlobal
