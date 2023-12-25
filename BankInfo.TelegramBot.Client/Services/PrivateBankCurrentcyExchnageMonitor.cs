@@ -11,13 +11,19 @@ public class PrivateBankCurrentcyExchnageMonitor
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
-    public string GetRateByDate(DateTime date)
+    public string GetCurrencyRateToday()
     {
 
         return null;
     }
 
-    public List<string> GetRateByDateRange(DateTime startDate, DateTime endDate)
+    public string GetCurrencyRateByDate(DateTime date)
+    {
+
+        return null;
+    }
+
+    public List<string> GetCurrencyRateByDateRange(DateTime startDate, DateTime endDate)
     {
         return new List<string> { };
     }

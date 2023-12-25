@@ -7,10 +7,9 @@ public class ReplicaTemplates
         return "list";
     }
 
-    public static string GetReplica_Greeting()
-    {
-        return "hello";
-    }
+    public static string GetReplica_Greeting() => 
+        "Hello.\n" +
+        "Welcome to bank info bot, it can show the current exchange rate currency or the exchange rate currency for a specific date.";
 
     public static string GetReplica_AllCommadDetails()
     {
