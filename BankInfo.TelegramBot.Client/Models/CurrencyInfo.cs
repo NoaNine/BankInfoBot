@@ -13,9 +13,9 @@ public class CurrencyInfo
     [JsonProperty("baseCurrencyLit")]
     public string BaseCurrencyLit { get; private set; }
     [JsonProperty("exchangeRate")]
-    public ExchangeRate ExchangeRate { get; private set; }
+    public ExchangeRate[] ExchangeRate { get; private set; }
 
-    public CurrencyInfo(DateTime date, string bankName, int baseCurrency, string baseCurrencyLit, ExchangeRate exchangeRate)
+    public CurrencyInfo(DateTime date, string bankName, int baseCurrency, string baseCurrencyLit, ExchangeRate[] exchangeRate)
     {
         Date = date;
         BankName = bankName;

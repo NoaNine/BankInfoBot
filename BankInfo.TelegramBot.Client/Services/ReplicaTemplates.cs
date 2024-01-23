@@ -15,4 +15,6 @@ public class ReplicaTemplates
     {
         return "details";
     }
+
+    public static string GetReplica_WrongCommand() => "Wrong command. Try again.";
 }
