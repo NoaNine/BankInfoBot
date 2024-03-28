@@ -21,16 +21,16 @@ public class BotEngine
 
     public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        if (update.Message is not { } message)
-            return; 
-        if (message.Text is not { } messageText)
+        if (await IsInvalidCommand(update))
+        {
             return;
-
+        }
+        var message = update.Message;
         var chatId = message.Chat.Id;
 
-        Adapter.ConsolePrint(messageText, chatId);
+        Adapter.ConsolePrint(message.Text, chatId);
 
-        Message sentMessage = await botClient.SendTextMessageAsync(chatId, "You said:\n" + messageText, cancellationToken: cancellationToken);
+        Message sentMessage = await botClient.SendTextMessageAsync(chatId, "You said:\n" + message.Text, cancellationToken: cancellationToken);
     }
 
     public static Task HandlePollingErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -54,5 +54,18 @@ public class BotEngine
         {
             Adapter.ConsolePrint(ex.Message);
         }
+    }
+
+    private static async Task<bool> IsInvalidCommand(Update update)
+    {
+        if(update == null
+            || update.Message == null
+            || update.Message.Text == null
+            || update.Message.From == null
+            || update.Message.From.Username == null)
+        {
+            return true;
+        }
+        return false;
     }
 }
